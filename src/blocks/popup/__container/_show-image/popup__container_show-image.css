@@ -1,0 +1,10 @@
+.popup__container_show-image {
+  max-width: max-content;
+  background-color: transparent;
+  margin: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  border-radius: 0px;
+}

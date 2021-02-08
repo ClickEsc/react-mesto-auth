@@ -1,0 +1,17 @@
+.photo-gallery {
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+  padding: 11px 0 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 282px);
+  column-gap: 18px;
+  row-gap: 21px;
+  justify-content: center;
+}
+
+@media screen and (max-width: 883px) {
+  .photo-gallery {
+    padding: 18px 0 48px;
+  }
+}

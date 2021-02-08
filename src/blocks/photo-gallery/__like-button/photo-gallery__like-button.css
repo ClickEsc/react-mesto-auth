@@ -1,0 +1,17 @@
+.photo-gallery__like-button {
+  width: 20.76px;
+  height: 18.13px;
+  background-image: url('../../../images/like-button.svg');
+  background-size: cover;
+  border: none;
+  outline: none;
+  background-color: white;
+  display: flex;
+  margin-bottom: 3px;
+  transition: .1s linear;
+}
+
+.photo-gallery__like-button:hover {
+  opacity: .6;
+  cursor: pointer;
+}

@@ -1,0 +1,24 @@
+.popup__input {
+  margin: 30px 36px 0;
+  padding: 0 0 9px 0;
+  width: 358px;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000;
+  outline-color: rgb(112, 156, 250);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+     
+@media screen and (max-width: 550px) {
+  .popup__input {
+    margin: 20px 20px 0;
+    padding-bottom: 8px;
+    max-width: calc(240px - 20px*2);
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

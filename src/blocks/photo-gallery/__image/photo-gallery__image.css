@@ -1,0 +1,12 @@
+.photo-gallery__image {
+  width: 282px;
+  height: 282px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px; 
+  transition: .1s linear;
+}
+
+.photo-gallery__image:hover {
+  opacity: .6;
+  cursor: pointer;
+}

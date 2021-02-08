@@ -1,0 +1,11 @@
+.photo-gallery__heading {
+  margin: 25px 0 0 21px;
+  max-width: 200px;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 29px;
+  color: #000;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

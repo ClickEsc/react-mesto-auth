@@ -99,3 +99,4 @@
 @import url(./blocks/auth/__input/_email/auth__input_email.css);
 @import url(./blocks/auth/__input/_password/auth__input_password.css);
 @import url(./blocks/auth/__save/auth__save.css);
+@import url(./blocks/auth/__hint/auth__hint.css);

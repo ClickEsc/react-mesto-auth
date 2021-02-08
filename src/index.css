@@ -87,3 +87,15 @@
 @import url(./blocks/popup/__save/_add-card/popup__save_add-card.css);
 @import url(./blocks/popup/__save/_load-avatar/popup__save_load-avatar.css);
 @import url(./blocks/popup/__save/_confirm/popup__save_confirm.css);
+
+@import url(./blocks/auth/auth.css);
+@import url(./blocks/auth/__form/auth__form.css);
+@import url(./blocks/auth/__form/_login/auth__form_login.css);
+@import url(./blocks/auth/__form/_register/auth__form_register.css);
+@import url(./blocks/auth/__title/auth__title.css);
+@import url(./blocks/auth/__title/_login/auth__title_login.css);
+@import url(./blocks/auth/__title/_register/auth__title_register.css);
+@import url(./blocks/auth/__input/auth__input.css);
+@import url(./blocks/auth/__input/_email/auth__input_email.css);
+@import url(./blocks/auth/__input/_password/auth__input_password.css);
+@import url(./blocks/auth/__save/auth__save.css);

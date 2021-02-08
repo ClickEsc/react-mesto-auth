@@ -1,22 +1,26 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 
-import { api } from '../utils/api.js';
+import { api } from '../utils/api';
 
 import '../index.css';
 
-import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import { CardContext } from '../contexts/CardContext.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { CardContext } from '../contexts/CardContext';
 
-import Card from './Card.js';
+import Card from './Card';
 
-import Header from './Header.js';
-import Main from './Main.js';
-import Footer from './Footer.js';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
 
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
+
+import Register from "./Register";
+import Login from "./Login";
 
 
 function App() {
@@ -156,15 +160,22 @@ function App() {
       <div className="App">
         <div className="page">
           <div className="page__container">
-            <Header />
-            <Main cards={renderedCards} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} />
-            <Footer />
+            <Route exact path="/">
+              <Header />
+              <Main cards={renderedCards} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} />
+              <Footer />
 
-            <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onUpdateAvatar={handleUpdateAvatar} onClose={closeAllPopups} />
-            <EditProfilePopup isOpen={isEditProfilePopupOpen} onUpdateUser={handleUpdateUser} onClose={closeAllPopups} /> 
-            <AddPlacePopup isOpen={isAddPlacePopupOpen} onAddPlace={handleAddPlaceSubmit} onClose={closeAllPopups} />
-            <ImagePopup card={selectedCard} onClose={closeAllPopups} name="show-image" />
-
+              <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onUpdateAvatar={handleUpdateAvatar} onClose={closeAllPopups} />
+              <EditProfilePopup isOpen={isEditProfilePopupOpen} onUpdateUser={handleUpdateUser} onClose={closeAllPopups} /> 
+              <AddPlacePopup isOpen={isAddPlacePopupOpen} onAddPlace={handleAddPlaceSubmit} onClose={closeAllPopups} />
+              <ImagePopup card={selectedCard} onClose={closeAllPopups} name="show-image" />
+            </Route>
+            <Route path="/sign-up">
+              <Register />
+            </Route>
+            <Route path="/sign-in">
+              <Login />
+            </Route>
           </div>  
         </div>
       </div>

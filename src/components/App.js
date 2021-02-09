@@ -21,6 +21,7 @@ import ImagePopup from "./ImagePopup";
 
 import Register from "./Register";
 import Login from "./Login";
+import InfoToolTip from './InfoTooltip';
 
 
 function App() {
@@ -163,6 +164,7 @@ function App() {
             <Route exact path="/">
               <Header />
               <Main cards={renderedCards} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} />
+              <InfoToolTip />
               <Footer />
 
               <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onUpdateAvatar={handleUpdateAvatar} onClose={closeAllPopups} />
@@ -176,6 +178,7 @@ function App() {
             <Route path="/sign-in">
               <Login />
             </Route>
+              <InfoToolTip />
           </div>  
         </div>
       </div>

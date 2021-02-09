@@ -41,6 +41,7 @@
 @import url(./blocks/popup/_add-card/popup_add-card.css);
 @import url(./blocks/popup/_show-image/popup_show-image.css);
 @import url(./blocks/popup/_load-avatar/popup_load-avatar.css);
+@import url(./blocks/popup/_tooltip/popup_tooltip.css);
 
 @import url(./blocks/popup/_confirm/popup_confirm.css);
 
@@ -64,6 +65,10 @@
 @import url(./blocks/popup/__title/_add-card/popup__title_add-card.css);
 @import url(./blocks/popup/__title/_load-avatar/popup__title_load-avatar.css);
 @import url(./blocks/popup/__title/_confirm/popup__title_confirm.css);
+
+@import url(./blocks/popup/__tooltip/popup__tooltip.css);
+@import url(./blocks/popup/__tooltip-image/popup__tooltip-image.css);
+@import url(./blocks/popup/__tooltip-text/popup__tooltip-text.css);
 
 @import url(./blocks/popup/__wrap/popup__wrap.css);
 

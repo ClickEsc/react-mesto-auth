@@ -4,7 +4,7 @@ import AuthForm from "./AuthForm";
 
 function Login(props) {
   return (
-    <AuthForm isOpen={props.isOpen} onSubmit="" onClose={props.onClose} name="login" title="Войти" buttonTitle="Войти"/>
+    <AuthForm onSubmit={props.onSubmit} name="login" title="Войти" buttonTitle="Войти"/>
   );
 }
   

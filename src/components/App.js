@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { api } from '../utils/api';
 
@@ -7,6 +7,8 @@ import '../index.css';
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { CardContext } from '../contexts/CardContext';
+
+import ProtectedRoute from './ProtectedRoute';
 
 import Card from './Card';
 
@@ -25,6 +27,13 @@ import InfoToolTip from './InfoTooltip';
 
 
 function App() {
+
+  // Хук состояния авторизован пользователь или нет
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  function handleLogIn() {
+    setIsLoggedIn(true);
+  }
 
   // Хук для установки данных пользователя в профиле
   const [currentUser, setCurrentUser] = React.useState({});
@@ -161,24 +170,30 @@ function App() {
       <div className="App">
         <div className="page">
           <div className="page__container">
-              <Header />
-            <Route exact path="/">
-              <Main cards={renderedCards} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} />
-              <InfoToolTip />
-              <Footer />
-
-              <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onUpdateAvatar={handleUpdateAvatar} onClose={closeAllPopups} />
-              <EditProfilePopup isOpen={isEditProfilePopupOpen} onUpdateUser={handleUpdateUser} onClose={closeAllPopups} /> 
-              <AddPlacePopup isOpen={isAddPlacePopupOpen} onAddPlace={handleAddPlaceSubmit} onClose={closeAllPopups} />
-              <ImagePopup card={selectedCard} onClose={closeAllPopups} name="show-image" />
-            </Route>
-            <Route path="/sign-up">
-              <Register />
-            </Route>
-            <Route path="/sign-in">
-              <Login />
-            </Route>
-              <InfoToolTip />
+            <Header />
+            <Switch>
+              <ProtectedRoute exact path="/" loggedIn={isLoggedIn} component={Main}
+                cards={renderedCards} 
+                onEditAvatar={handleEditAvatarClick} 
+                onEditProfile={handleEditProfileClick} 
+                onAddPlace={handleAddPlaceClick} 
+                onCardClick={handleCardClick} />
+              <Route path="/sign-up">
+                <Register />
+              </Route>
+              <Route path="/sign-in">
+                <Login onSubmit={handleLogIn} />
+              </Route>
+              <Route>
+                {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+              </Route>
+            </Switch>
+            <Footer />
+            <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onUpdateAvatar={handleUpdateAvatar} onClose={closeAllPopups} />
+            <EditProfilePopup isOpen={isEditProfilePopupOpen} onUpdateUser={handleUpdateUser} onClose={closeAllPopups} /> 
+            <AddPlacePopup isOpen={isAddPlacePopupOpen} onAddPlace={handleAddPlaceSubmit} onClose={closeAllPopups} />
+            <ImagePopup card={selectedCard} onClose={closeAllPopups} name="show-image" />
+            <InfoToolTip />
           </div>  
         </div>
       </div>

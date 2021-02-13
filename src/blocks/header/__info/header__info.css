@@ -3,3 +3,9 @@
   display: flex;
   justify-content: row;
 }
+
+@media screen and (max-width: 883px) {
+  .header__info {
+    margin-right: 27px;
+  }
+}

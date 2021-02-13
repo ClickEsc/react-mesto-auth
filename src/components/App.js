@@ -161,8 +161,8 @@ function App() {
       <div className="App">
         <div className="page">
           <div className="page__container">
-            <Route exact path="/">
               <Header />
+            <Route exact path="/">
               <Main cards={renderedCards} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} />
               <InfoToolTip />
               <Footer />

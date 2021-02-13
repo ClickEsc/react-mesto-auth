@@ -5,3 +5,10 @@
   line-height: 22px;
   color: #fff;
 }
+
+@media screen and (max-width: 883px) {
+  .header__user {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}

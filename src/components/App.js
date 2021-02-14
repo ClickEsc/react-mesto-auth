@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect, Link } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 
 import { api } from '../utils/api';
 import * as auth from '../utils/auth';
@@ -33,7 +32,7 @@ import crossMark from '../images/cross-mark.svg';
 
 function App() {
 
-  const history = createBrowserHistory();
+  const history = useHistory();
 
   // Хук состояния авторизован пользователь или нет
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -61,7 +60,7 @@ function App() {
   function handleInfoTooltip() {
     setInfoTooltipOpen(true);
   }
-
+  
   function handleInfoTooltipContent(res) {
     if (res) {
       setInfoTooltip({
@@ -104,6 +103,18 @@ function App() {
     .catch(err => console.log(`Ошибка при попытке входа пользователя: ${err.message}`));
   }
 
+  // Cохранение токена для повторного входа пользователя без дополнительной авторизации
+  React.useEffect(() => {
+    handleLogIn();
+  }, [isLoggedIn]);
+
+  // Удаление токена при выходе пользователя
+  function signOut() {
+    localStorage.removeItem('token');
+    setUserEmail('');
+    history.push('/sign-in');
+  }
+
   // Хук для установки данных пользователя в профиле
   const [currentUser, setCurrentUser] = React.useState({});
 
@@ -116,7 +127,7 @@ function App() {
       .then((res) => {
         handleCurrentUserInfo(res);
       })
-      .catch(err => console.log(`Ошибка при обращении за информацией о пользователе: ${err}`))
+      .catch(err => console.log(`Ошибка при обращении за информацией о пользователе: ${err.message}`))
   }, []);
 
   function handleUpdateUser(currentUser) {
@@ -125,7 +136,7 @@ function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch(err => console.log(`Ошибка при редактировании информации о пользователе: ${err}`))
+      .catch(err => console.log(`Ошибка при редактировании информации о пользователе: ${err.message}`))
   }
 
   function handleUpdateAvatar(currentUser) {
@@ -134,7 +145,7 @@ function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch(err => console.log(`Ошибка при замене аватара пользователя: ${err}`))
+      .catch(err => console.log(`Ошибка при замене аватара пользователя: ${err.message}`))
   }
 
   // Хук для попапа редактирования аватара
@@ -235,15 +246,12 @@ function App() {
     </CardContext.Provider>
   })
 
-  // Путь
-  const currentPath = document.location.pathname
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <div className="page">
           <div className="page__container">
-            <Header email={userEmail} button={ isLoggedIn && "Выйти" } />
+            <Header email={userEmail} signOut={signOut} />
             <Switch>
               <ProtectedRoute exact path="/" loggedIn={isLoggedIn} component={Main}
                 cards={renderedCards} 
@@ -257,7 +265,7 @@ function App() {
               <Route path="/sign-in">
                 <Login onLogin={authorizeUser} />
               </Route>
-              <Route exact path="/">
+              <Route path="/">
                 {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
               </Route>
             </Switch>

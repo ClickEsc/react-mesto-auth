@@ -1,8 +1,9 @@
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import { api } from '../utils/api';
+import * as auth from '../utils/auth';
 
 import '../index.css';
 
@@ -26,6 +27,9 @@ import Register from "./Register";
 import Login from "./Login";
 import InfoToolTip from './InfoTooltip';
 
+import tickMark from '../images/tick-mark.svg';
+import crossMark from '../images/cross-mark.svg';
+
 
 function App() {
 
@@ -33,9 +37,71 @@ function App() {
 
   // Хук состояния авторизован пользователь или нет
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState('');
 
   function handleLogIn() {
-    setIsLoggedIn(true);
+    const token = localStorage.getItem('token');
+    if (token) {
+      auth.getToken(token)
+        .then((res) => {
+          if (res) {
+            setIsLoggedIn(true);
+            setUserEmail(res.data.email);
+            history.push('/');
+          }
+        })
+        .catch(err => console.log(`Ошибка при запросе токена: ${err.message}`));
+    }
+  }
+
+  // Хук для попапа информирования об успешности регистрации
+  const [infoTooltip, setInfoTooltip] = React.useState(undefined);
+  const [isInfoTooltipOpen, setInfoTooltipOpen] = React.useState(false);
+
+  function handleInfoTooltip() {
+    setInfoTooltipOpen(true);
+  }
+
+  function handleInfoTooltipContent(res) {
+    if (res) {
+      setInfoTooltip({
+        src: tickMark,
+        text: 'Вы успешно зарегистрировались!',
+      });
+    } else {
+      setInfoTooltip({
+        src: crossMark,
+        text: 'Что-то пошло не так! Попробуйте ещё раз.',
+      });
+    }
+  }
+
+  // Регистрация пользователя
+  function registerUser(email, password) {
+    auth.register(email, password)
+      .then((res) => {
+        if (res) {
+          handleInfoTooltipContent(res);
+          handleInfoTooltip();
+          history.push('/sign-in');
+        } else {
+          handleInfoTooltipContent(res);
+          handleInfoTooltip();
+        }
+    })
+      .catch(err => console.log(`Ошибка при попытке регистрации пользователя: ${err.message}`));
+  }
+
+  // Авторизация пользователя
+  function authorizeUser(email, password) {
+    auth.authorize(email, password)
+      .then((res) => {
+        if (res.token) {
+          handleLogIn();
+          history.push('/');
+        }
+    })
+    .catch(err => console.log(`Ошибка при попытке входа пользователя: ${err.message}`));
   }
 
   // Хук для установки данных пользователя в профиле
@@ -109,6 +175,7 @@ function App() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setSelectedCard(undefined);
+    setInfoTooltipOpen(false);
   }
 
   // Карточки
@@ -168,12 +235,15 @@ function App() {
     </CardContext.Provider>
   })
 
+  // Путь
+  const currentPath = document.location.pathname
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <div className="page">
           <div className="page__container">
-            <Header />
+            <Header email={userEmail} button={ isLoggedIn && "Выйти" } />
             <Switch>
               <ProtectedRoute exact path="/" loggedIn={isLoggedIn} component={Main}
                 cards={renderedCards} 
@@ -182,10 +252,10 @@ function App() {
                 onAddPlace={handleAddPlaceClick} 
                 onCardClick={handleCardClick} />
               <Route path="/sign-up">
-                <Register history={history} />
+                <Register onRegister={registerUser} />
               </Route>
               <Route path="/sign-in">
-                <Login onSubmit={handleLogIn} />
+                <Login onLogin={authorizeUser} />
               </Route>
               <Route exact path="/">
                 {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
@@ -196,7 +266,7 @@ function App() {
             <EditProfilePopup isOpen={isEditProfilePopupOpen} onUpdateUser={handleUpdateUser} onClose={closeAllPopups} /> 
             <AddPlacePopup isOpen={isAddPlacePopupOpen} onAddPlace={handleAddPlaceSubmit} onClose={closeAllPopups} />
             <ImagePopup card={selectedCard} onClose={closeAllPopups} name="show-image" />
-            <InfoToolTip />
+            <InfoToolTip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} content={infoTooltip} />
           </div>  
         </div>
       </div>

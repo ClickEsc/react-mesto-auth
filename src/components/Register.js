@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import * as auth from '../utils/auth';
 import AuthForm from "./AuthForm";
 
 function Register(props) {
@@ -16,19 +15,16 @@ function Register(props) {
     setPassword(e.target.value)
   };
 
+  function resetForm() {
+    setEmail('');
+    setPassword('')
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(email, password);
-    auth.register(email, password)
-      .then((res) => {
-        if (res) {
-          props.history.push('/sign-in');
-        }
-        setEmail(res.email);
-        setPassword(res.password);
-    })
-    .catch(err => console.log(`Ошибка при попытке регистрации пользователя: ${err.message}`))
-}
+    props.onRegister(email, password);
+    resetForm();
+  }
 
   return (
     <AuthForm onSubmit={handleSubmit} email={email || ''} handleEmailChange={handleEmailChange} password={password || ''} handlePasswordChange={handlePasswordChange} name="signup" title="Регистрация" buttonTitle="Зарегистрироваться" children={

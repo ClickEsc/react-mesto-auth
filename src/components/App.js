@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
 import { api } from '../utils/api';
 
@@ -27,6 +28,8 @@ import InfoToolTip from './InfoTooltip';
 
 
 function App() {
+
+  const history = createBrowserHistory();
 
   // Хук состояния авторизован пользователь или нет
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -179,12 +182,12 @@ function App() {
                 onAddPlace={handleAddPlaceClick} 
                 onCardClick={handleCardClick} />
               <Route path="/sign-up">
-                <Register />
+                <Register history={history} />
               </Route>
               <Route path="/sign-in">
                 <Login onSubmit={handleLogIn} />
               </Route>
-              <Route>
+              <Route exact path="/">
                 {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
               </Route>
             </Switch>

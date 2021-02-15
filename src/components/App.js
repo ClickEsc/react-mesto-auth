@@ -7,7 +7,6 @@ import * as auth from '../utils/auth';
 import '../index.css';
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { CardContext } from '../contexts/CardContext';
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -172,11 +171,11 @@ function App() {
   // Хук для попапа показа полноразмерного изображения
   const [selectedCard, setSelectedCard] = React.useState(undefined);
 
-  function handleCardClick() {
+  function handleCardClick(card) {
     setSelectedCard({
-      src: this.link,
-      name: this.name,
-      alt: `Изображение под названием ${this.name}`
+      src: card.link,
+      name: card.name,
+      alt: `Изображение под названием ${card.name}`
     });
   }
 
@@ -200,10 +199,7 @@ function App() {
   React.useEffect(() => {
     api.getInitialCards()
       .then((res) => {
-        const initialCards = res.map((item) => {
-          return item
-        });
-        handleInitialCards(initialCards);
+        handleInitialCards(res);
       })
       .catch(err => console.log(`Ошибка при запросе начальных карточек: ${err}`))
   }, []);

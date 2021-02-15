@@ -1,15 +1,20 @@
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 function Header(props) {
-  // Путь текущего местоположения
-  const currentPath = document.location.pathname
-
   return (
     <header className="header">
       <div className="header__logo"></div>
       <div className="header__info">
-        <p className="header__user">{currentPath ==='/' ? props.email : ''}</p>
-        <Link to={(currentPath ==='/sign-in') ? "/sign-up" : "/sign-in"}  onClick={props.signOut} className="header__link">{ (currentPath === '/') ? "Выйти" : (currentPath === '/sign-in' ? "Регистрация" : "Войти")} </Link>
+        <Route exact path="/">
+          <p className="header__user">{props.email}</p>
+          <Link to="/sign-in" onClick={props.signOut} className="header__link">Выйти</Link>
+        </Route>
+        <Route path="/sign-up">
+          <Link to="/sign-in" className="header__link">Войти</Link>
+        </Route>
+        <Route exact path="/sign-in">
+          <Link to="/sign-up" className="header__link">Регистрация</Link>
+        </Route>
       </div>
     </header>
   );

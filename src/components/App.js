@@ -241,9 +241,8 @@ function App() {
   }
 
   const renderedCards = cards.map((card) => {
-    return <CardContext.Provider value={card} key={card._id}>
-      <Card onCardLike={handleCardLike} onCardDelete={handleCardDelete} onCardClick={handleCardClick} name={card.name} link={card.link} likes={card.likes.length} alt={`Изображение под названием ${card.name}`}/>
-    </CardContext.Provider>
+    return <Card card={card} onCardLike={handleCardLike} onCardDelete={handleCardDelete} onCardClick={handleCardClick} 
+    name={card.name} link={card.link} likes={card.likes.length} alt={`Изображение под названием ${card.name}`}/>
   })
 
   return (
